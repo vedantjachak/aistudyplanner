@@ -1,0 +1,149 @@
+type UpdateTaskInput = 
+ record {
+   dueDate: opt Timestamp;
+   durationMinutes: opt nat;
+   id: TaskId;
+   subject: opt text;
+   title: opt text;
+ };
+type Timestamp = int;
+type TaskStatus = 
+ variant {
+   completed;
+   inProgress;
+   pending;
+ };
+type TaskId = nat;
+type Task = 
+ record {
+   createdAt: Timestamp;
+   dueDate: Timestamp;
+   durationMinutes: nat;
+   id: TaskId;
+   status: TaskStatus;
+   subject: text;
+   title: text;
+ };
+type SubjectTime = 
+ record {
+   subject: text;
+   totalMinutes: nat;
+ };
+type StudyStats = 
+ record {
+   currentStreakDays: nat;
+   totalCompletedTasks: nat;
+   totalStudyMinutes: nat;
+ };
+type StudySession = 
+ record {
+   endTime: opt Timestamp;
+   id: SessionId;
+   pausedAt: opt Timestamp;
+   startTime: Timestamp;
+   status: SessionStatus;
+   taskId: TaskId;
+   totalElapsedSeconds: nat;
+ };
+type SessionStatus = 
+ variant {
+   active;
+   completed;
+   paused;
+ };
+type SessionId = nat;
+type ReminderStatus = 
+ variant {
+   dismissed;
+   pending;
+   snoozed;
+ };
+type ReminderId = nat;
+type Reminder = 
+ record {
+   createdAt: Timestamp;
+   id: ReminderId;
+   linkedTaskId: opt TaskId;
+   message: text;
+   scheduledTime: Timestamp;
+   snoozeUntil: opt Timestamp;
+   status: ReminderStatus;
+ };
+type QuizResult = 
+ record {
+   completedAt: Timestamp;
+   quizId: QuizId;
+   score: nat;
+   subject: text;
+   taskId: TaskId;
+   totalQuestions: nat;
+ };
+type QuizQuestion = 
+ record {
+   correctOptionId: nat;
+   id: nat;
+   options: vec QuizOption;
+   question: text;
+ };
+type QuizOption = 
+ record {
+   id: nat;
+   "text": text;
+ };
+type QuizId = nat;
+type QuizAnswerSubmission = 
+ record {
+   answers: vec record {
+                  nat;
+                  nat;
+                };
+   quizId: QuizId;
+ };
+type Quiz = 
+ record {
+   createdAt: Timestamp;
+   id: QuizId;
+   questions: vec QuizQuestion;
+   subject: text;
+   taskId: TaskId;
+ };
+type DailyStudyData = 
+ record {
+   date: text;
+   totalMinutes: nat;
+ };
+type CreateTaskInput = 
+ record {
+   dueDate: Timestamp;
+   durationMinutes: nat;
+   subject: text;
+   title: text;
+ };
+type CreateReminderInput = 
+ record {
+   linkedTaskId: opt TaskId;
+   message: text;
+   scheduledTime: Timestamp;
+ };
+service : {
+  completeSession: (sessionId: SessionId) -> (bool);
+  createReminder: (input: CreateReminderInput) -> (Reminder);
+  createTask: (input: CreateTaskInput) -> (Task);
+  deleteTask: (id: TaskId) -> (bool);
+  dismissReminder: (id: ReminderId) -> (bool);
+  generateQuiz: (taskId: TaskId) -> (opt Quiz);
+  getActiveSessions: () -> (vec StudySession) query;
+  getAllTasks: () -> (vec Task) query;
+  getDailyStudyData: (days: nat) -> (vec DailyStudyData) query;
+  getQuizHistory: () -> (vec QuizResult) query;
+  getStudyStats: () -> (StudyStats) query;
+  getStudyTimeBySubject: () -> (vec SubjectTime) query;
+  getTask: (id: TaskId) -> (opt Task) query;
+  getUpcomingReminders: () -> (vec Reminder) query;
+  pauseSession: (sessionId: SessionId) -> (bool);
+  resumeSession: (sessionId: SessionId) -> (bool);
+  snoozeReminder: (id: ReminderId, snoozeUntil: Timestamp) -> (bool);
+  startSession: (taskId: TaskId) -> (opt StudySession);
+  submitQuizAnswers: (submission: QuizAnswerSubmission) -> (opt QuizResult);
+  updateTask: (input: UpdateTaskInput) -> (bool);
+}

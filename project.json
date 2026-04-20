@@ -1,0 +1,25 @@
+{
+  "overview": "A futuristic, AI-powered study planner with task scheduling, progress tracking, productivity insights, animated dashboards, and AI-generated quizzes after each completed task. Designed for students with smooth animations, vibrant gradients, and a fully responsive layout.",
+  "features": [
+    "Task scheduling with subject, duration, and due date",
+    "Live study session timer with start/pause/complete",
+    "AI-powered quizzes generated after task completion",
+    "Animated productivity charts and progress tracking",
+    "Study streaks and daily goal progress ring",
+    "Reminder scheduling with snooze/dismiss",
+    "Dark mode toggle",
+    "Fully responsive design for mobile and desktop"
+  ],
+  "category": "productivity",
+  "tags": [
+    "study",
+    "planner",
+    "ai",
+    "quiz",
+    "productivity",
+    "education",
+    "dashboard",
+    "animated"
+  ],
+  "last_updated": "2026-04-15T18:26:54.019Z"
+}
